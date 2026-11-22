@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>통합조례 불이익배제 대조표 — 시범판</title>
+<style>
+:root{--ink:#16213a;--sub:#5b6478;--line:#d9dde6;--bg:#f5f6f9;--card:#fff;--g:#1f6fb2;--j:#2e8b57;--t:#7a3db8;--warn:#c2410c;--warnbg:#fff4ec;--ok:#0f766e}
+*{box-sizing:border-box}body{margin:0;font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",sans-serif;color:var(--ink);background:var(--bg);font-size:15px;line-height:1.55}
+header{background:var(--ink);color:#fff;padding:18px 22px}header h1{margin:0;font-size:20px}header p{margin:4px 0 0;color:#c9d1e3;font-size:13px}
+nav{display:flex;gap:4px;flex-wrap:wrap;padding:10px 22px;background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+nav button{border:1px solid var(--line);background:#fff;padding:7px 12px;border-radius:6px;cursor:pointer;font-size:14px}nav button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+main{padding:18px 22px;max-width:1200px;margin:0 auto}section{display:none}section.on{display:block}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}.kpi{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:12px}
+.kpi b{display:block;font-size:26px}.kpi span{color:var(--sub);font-size:13px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:14px;margin:12px 0}
+h2{font-size:17px;margin:4px 0 8px}h3{font-size:15px;margin:10px 0 6px}
+.G{color:var(--g)}.J{color:var(--j)}.T{color:var(--t)}
+.tag{display:inline-block;font-size:12px;padding:1px 7px;border-radius:10px;border:1px solid var(--line);margin-right:4px;color:var(--sub)}
+.tag.d{border-color:var(--warn);color:var(--warn)}
+input[type=search],textarea,select{width:100%;padding:8px;border:1px solid var(--line);border-radius:6px;font-size:14px;font-family:inherit}
+.list{max-height:520px;overflow:auto;border:1px solid var(--line);border-radius:6px;background:#fff}
+.row{padding:8px 10px;border-bottom:1px solid #eef0f4;cursor:pointer}.row:hover{background:#f3f6fb}.row.sel{background:#e9f0fb}
+.two{display:grid;grid-template-columns:minmax(260px,1fr) 2fr;gap:14px}@media(max-width:860px){.two{grid-template-columns:1fr}}
+table{border-collapse:collapse;width:100%;font-size:13.5px}th,td{border:1px solid var(--line);padding:6px 8px;vertical-align:top;text-align:left}th{background:#f0f2f7}
+td small{color:var(--sub)}.flag{background:var(--warnbg);border-left:4px solid var(--warn);padding:8px 10px;margin:6px 0;border-radius:4px}
+.ok{background:#ecfdf5;border-left:4px solid var(--ok);padding:8px 10px;margin:6px 0;border-radius:4px}
+.btn{border:1px solid var(--ink);background:var(--ink);color:#fff;padding:7px 12px;border-radius:6px;cursor:pointer;font-size:14px}.btn.l{background:#fff;color:var(--ink)}
+.note{color:var(--sub);font-size:12.5px}a{color:var(--g)}
+.bar{display:flex;height:26px;border-radius:5px;overflow:hidden;border:1px solid var(--line)}.bar div{display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;white-space:nowrap}
+footer{padding:16px 22px;color:var(--sub);font-size:12px;text-align:center}
+</style></head><body>
+<header><h1>통합조례 불이익배제 대조표 — 의정지원 시범판</h1>
+<p>종전 광주·전남 조례와 통합조례(안)를 조문 단위로 맞대어 「누가 무엇을 잃는가 · 높은 쪽에 맞추면 무엇이 늘어나는가」를 보여 줍니다 · 자료 기준일 <span id="asof"></span> · 법제처 국가법령정보센터 공개 자료</p></header>
+<nav id="nav"><button data-t="s1" class="on">① 현황판</button><button data-t="s2">② 쌍 대조표</button><button data-t="s3">③ 통합조례(안) 점검</button><button data-t="s4">④ 한쪽에만 있는 조례</button><button data-t="s5">⑤ 방법·출처</button></nav>
+<main>
+<section id="s1" class="on">
+<div class="kpis" id="kpis"></div>
+<div class="card"><h2>종전 조례는 얼마나 남았나 (조례 기준)</h2><div id="barbox"></div><p class="note" id="barnote"></p></div>
+<div class="card"><h2>통합조례 제정 흐름 (공포월별)</h2><div id="monthchart"></div></div>
+<div class="card"><h2>왜 대조표가 필요한가</h2>
+<p>「전남광주통합특별시 설치를 위한 특별법」 제55조(불이익 배제의 원칙)는 통합으로 종전 광주·전남에서 누리던 행정상·재정상 이익이 상실되거나 주민에게 새로운 부담이 추가되어서는 안 된다고 정합니다. 그러나 현재 의안 첨부는 비용추계서 중심이어서, 같은 주제를 두 지역이 서로 다르게 정해 둔 조건(연령·금액·과태료·거주요건)이 통합안에서 어느 쪽으로 정해졌는지 한 장으로 보이지 않습니다.</p>
+<div id="examples"></div></div>
+</section>
+<section id="s2">
+<div class="two"><div><input type="search" id="q2" placeholder="조례명 검색 (예: 청년, 미술관, 금연)">
+<label class="note"><input type="checkbox" id="onlydiff" checked> 수치 조건이 다른 쌍만</label>
+<div class="list" id="plist"></div><p class="note" id="pcount"></p></div>
+<div id="pview" class="card">왼쪽에서 조례 쌍을 고르세요.</div></div>
+</section>
+<section id="s3">
+<div class="card"><h2>통합조례(안) 붙여넣기 → 종전 두 조례와 자동 대조</h2>
+<p class="note">통합조례안 본문을 붙여넣고, 비교할 종전 조례 쌍(또는 이미 공포된 통합조례)을 고르면 연령·금액·비율·거주·기간 조건과 대상 정의를 3단으로 맞대고 불이익 가능 지점을 표시합니다.</p>
+<select id="pairsel"></select>
+<p class="note">또는 공포된 통합조례 고르기 (종전 조례가 아직 목록에 남아 있는 경우 자동 대조):</p>
+<select id="tsel"></select>
+<textarea id="draft" rows="8" placeholder="통합조례안 본문을 여기에 붙여넣으세요"></textarea>
+<p><button class="btn" id="run">대조표 만들기</button> <button class="btn l" id="demo">예시: 퇴직소방공무원 특수건강진단</button></p>
+<div id="tview"></div></div>
+</section>
+<section id="s4">
+<div class="card"><h2>한쪽 지역에만 있는 종전 조례</h2><p class="note">통합 때 「전 지역 확대」 또는 「폐지」를 결정해야 하는 제도입니다. 확대하면 재정 소요, 폐지하면 해당 지역 주민의 이익 상실(특별법 제55조) 문제가 생깁니다. 이름이 다르게 붙은 같은 제도가 섞여 있을 수 있어 정책지원관 확인 대상입니다.</p>
+<input type="search" id="q4" placeholder="검색"><p class="note" id="c4"></p>
+<div class="two" style="grid-template-columns:1fr 1fr"><div><h3 class="G">광주에만</h3><div class="list" id="gonly"></div></div><div><h3 class="J">전남에만</h3><div class="list" id="jonly"></div></div></div></div>
+</section>
+<section id="s5"><div class="card"><h2>방법</h2>
+<ol><li>법제처 국가법령정보센터 현행자치법규 목록에서 자치단체 「전남광주통합특별시」「(구)광주광역시」「(구)전라남도」 조례를 모두 받고 본문을 수집했습니다.</li>
+<li>조례명에서 지역명·상투어를 걷어 내고 문자열 유사도로 광주·전남 같은 주제 조례를 짝지었습니다(후보 짝 — 사람이 확인).</li>
+<li>본문에서 연령(○세 이상·이하), 금액(○원), 비율(%), 거주요건, 기간을 조문 번호와 함께 뽑아 두 지역을 맞대었습니다.</li>
+<li>통합조례 부칙의 「다른 조례의 폐지」 조항을 읽어 어떤 종전 조례를 대체했는지 찾고, 이미 폐지됐는데 현행으로 표시된 조례도 표시했습니다.</li></ol>
+<p class="note">이 시범판은 판단을 대신하지 않습니다. 모든 표시는 조문 원문과 함께 보여 주며, 최종 판단은 의원·정책지원관·전문위원이 합니다. 원문 링크는 법제처 화면으로 연결됩니다.</p>
+<div id="lag"></div></div></section>
+</main>
+<footer>정책아이디어 공모 제안용 시범판 · 자료: 법제처 국가법령정보센터(현행자치법규) · 판 v1.1</footer>
+<script>
+const D={};const OC={G:'종전 광주',J:'종전 전남',T:'통합특별시'};
+const K={age:'연령',won:'금액',pct:'비율',resid:'거주요건',year:'기간'};
+const law=s=>`https://www.law.go.kr/LSW/ordinInfoP.do?ordinSeq=${s}`;
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+document.querySelectorAll('#nav button').forEach(b=>b.onclick=()=>show(b.dataset.t));
+function show(t){document.querySelectorAll('#nav button').forEach(x=>x.classList.toggle('on',x.dataset.t==t));document.querySelectorAll('section').forEach(s=>s.classList.toggle('on',s.id==t));try{history.replaceState(null,'','#'+t)}catch(e){}}
+fetch('app_data.json').then(r=>r.json()).then(d=>{Object.assign(D,d);init()});
+const PAT={age:/(?<![\d,.])(?:만\s*)?(\d{1,2})\s*세(?!대|기|입|출|수|율|금|외|목|원|정|계|부|무|법|액|제|로)\s*(이상|이하|미만|초과|부터|까지)?/g,won:/(\d[\d,]*)\s*(만|억|천)?\s*원/g,pct:/(\d{1,3}(?:\.\d+)?)\s*(?:퍼센트|%|％)/g,resid:/(\d{1,2})\s*(개월|년)\s*이상\s*(?:계속\s*)?(?:거주|주소)/g,year:/(\d{1,2})\s*년\s*(이상|이내|이하|마다|미만)/g};
+function extract(text){const out=[];let art='전문';for(const line of text.split('\n')){const m=line.match(/^\s*(제\d+조(?:의\d+)?)\(([^)]*)\)/);if(m)art=m[1]+'('+m[2]+')';for(const k in PAT){for(const mm of line.matchAll(PAT[k]))out.push([k,mm[0].trim(),art,line.trim().slice(0,110)])}}return out}
+function defsOf(text){const out=[];let art='';for(const line of text.split('\n')){const m=line.match(/^\s*(제\d+조(?:의\d+)?)\(([^)]*)\)/);if(m)art=m[1]+'('+m[2]+')';const l=line.trim();if(/[”"“]이란/.test(l)&&/세|거주|주소|근무|퇴직|소득|가구|등록|이상|이하/.test(l))out.push([art,l.slice(0,150)])}return out}
+function ageRange(f){let lo=null,hi=null;for(const x of f){if(x[0]!='age')continue;const n=+x[1].match(/\d+/)[0];if(/이상|부터/.test(x[1]))lo=lo==null?n:Math.min(lo,n);else if(/이하|까지/.test(x[1]))hi=hi==null?n:Math.max(hi,n);else if(/미만/.test(x[1]))hi=hi==null?n-1:Math.max(hi,n-1)}return [lo,hi]}
+function vals(f,k){return [...new Set(f.filter(x=>x[0]==k).map(x=>x[1].replace(/\s/g,'')))]}
+function init(){
+ document.getElementById('asof').textContent=D.asof;
+ D.by={};D.items.forEach(i=>D.by[i.s]=i);
+ const G=D.items.filter(i=>i.o=='G'),J=D.items.filter(i=>i.o=='J'),T=D.items.filter(i=>i.o=='T');
+ const Gl=G.filter(i=>!i.r),Jl=J.filter(i=>!i.r);
+ const paired=new Set();D.pairs.forEach(p=>{paired.add(p[0]);paired.add(p[1])});
+ D.gonly=Gl.filter(i=>!paired.has(i.s));D.jonly=Jl.filter(i=>!paired.has(i.s));
+ const diffN=D.pairs.filter(p=>p[3].length).length;
+ let both=0;for(const s in D.pred){const ps=D.pred[s];if(ps.some(p=>/^(광주광역시|광주)/.test(p[0]))&&ps.some(p=>/^(전라남도|전남)/.test(p[0])))both++}
+ D.both=both;
+ const k=[[T.length,'통합특별시 조례(현행)'],[Gl.length+Jl.length,'아직 남은 종전 조례 (광주 '+Gl.length+' · 전남 '+Jl.length+')'],[D.pairs.length,'같은 주제를 두 지역이 따로 정한 쌍'],[diffN,'그중 연령·금액·비율·거주 조건이 다른 쌍'],[both,'양쪽 종전 조례를 하나로 합친 통합조례'],[D.gonly.length+D.jonly.length,'한쪽 지역에만 있는 종전 조례']];
+ document.getElementById('kpis').innerHTML=k.map(x=>`<div class="kpi"><b>${x[0].toLocaleString()}</b><span>${x[1]}</span></div>`).join('');
+ const tot=T.length+Gl.length+Jl.length;
+ document.getElementById('barbox').innerHTML=`<div class="bar"><div style="width:${T.length/tot*100}%;background:var(--t)">통합 ${T.length}</div><div style="width:${Gl.length/tot*100}%;background:var(--g)">종전 광주 ${Gl.length}</div><div style="width:${Jl.length/tot*100}%;background:var(--j)">종전 전남 ${Jl.length}</div></div>`;
+ document.getElementById('barnote').textContent=`특별법 부칙 경과규정에 따라 종전 조례는 통합조례가 나올 때까지 종전 관할구역에만 적용됩니다. 법제처 목록에 현행으로 표시된 종전 조례 중 ${G.length+J.length-Gl.length-Jl.length}건은 통합조례 부칙으로 이미 폐지돼 제외했습니다.`;
+ // month chart
+ const mc={};T.forEach(i=>{const p=i.d.match(/(\d{4})\.\s*(\d{1,2})\./);const m=p[1]+'.'+p[2];mc[m]=(mc[m]||0)+1});const ms=Object.keys(mc).sort((a,b)=>{const p=x=>x.split('.').map(Number);const [a1,a2]=p(a),[b1,b2]=p(b);return a1-b1||a2-b2});const mx=Math.max(...Object.values(mc));
+ document.getElementById('monthchart').innerHTML=`<svg viewBox="0 0 ${ms.length*90+40} 170" width="100%" style="max-width:560px">`+ms.map((m,i)=>{const h=mc[m]/mx*120;return `<rect x="${30+i*90}" y="${140-h}" width="50" height="${h}" fill="#7a3db8"/><text x="${55+i*90}" y="${135-h}" font-size="13" text-anchor="middle">${mc[m]}</text><text x="${55+i*90}" y="160" font-size="12" text-anchor="middle">${m}</text>`}).join('')+`</svg>`;
+ // examples
+ const ex=['청년기본','부모 빚 대물림','금연환경','시립미술관','청년기업'];
+ const rows=ex.map(w=>D.pairs.find(p=>D.by[p[0]].n.includes(w))).filter(Boolean);
+ document.getElementById('examples').innerHTML='<h3>대조 예시 (조문 원문)</h3><table><tr><th>주제</th><th class="G">종전 광주</th><th class="J">종전 전남</th></tr>'+rows.map(p=>{const g=D.by[p[0]],j=D.by[p[1]];const pick=it=>{const f=it.f.filter(x=>x[0]=='age'||x[0]=='won');return f.slice(0,2).map(x=>`<b>${esc(x[1])}</b> <small>${esc(x[2])}</small>`).join('<br>')||'-'};return `<tr><td>${esc(g.n.replace(/^광주광역시\s+/,''))}</td><td>${pick(g)}</td><td>${pick(j)}</td></tr>`}).join('')+'</table>';
+ // s2
+ const pl=document.getElementById('plist');
+ function rp(){const q=document.getElementById('q2').value.trim();const od=document.getElementById('onlydiff').checked;const L=D.pairs.filter(p=>(!od||p[3].length)&&(!q||D.by[p[0]].n.includes(q)||D.by[p[1]].n.includes(q)));document.getElementById('pcount').textContent=L.length+'쌍';pl.innerHTML=L.map(p=>`<div class="row" data-k="${p[0]}|${p[1]}">${esc(D.by[p[0]].n.replace(/^광주광역시\s+/,''))}<br>${p[3].map(k=>`<span class="tag d">${K[k]}</span>`).join('')}<span class="tag">짝 ${p[2]}</span></div>`).join('');pl.querySelectorAll('.row').forEach(r=>r.onclick=()=>{pl.querySelectorAll('.row').forEach(x=>x.classList.remove('sel'));r.classList.add('sel');const [a,b]=r.dataset.k.split('|');document.getElementById('pview').innerHTML=compareHTML(D.by[a],D.by[b],null)})}
+ document.getElementById('q2').oninput=rp;document.getElementById('onlydiff').onchange=rp;rp();
+ // s3
+ const ps=document.getElementById('pairsel');ps.innerHTML='<option value="">— 비교할 종전 조례 쌍 —</option>'+D.pairs.map(p=>`<option value="${p[0]}|${p[1]}">${esc(D.by[p[0]].n)} ↔ ${esc(D.by[p[1]].n)}</option>`).join('');
+ const withLegacy=T.filter(t=>(D.pred[t.s]||[]).some(p=>p[1]&&D.by[p[1]]));
+ const ts=document.getElementById('tsel');ts.innerHTML='<option value="">— 종전 조례가 목록에 남아 있는 통합조례 —</option>'+withLegacy.map(t=>`<option value="${t.s}">${esc(t.n)} (${t.d})</option>`).join('');
+ ts.onchange=()=>{const t=D.by[ts.value];if(!t)return;const leg=(D.pred[t.s]||[]).map(p=>D.by[p[1]]).filter(Boolean);const g=leg.find(x=>x.o=='G')||null,j=leg.find(x=>x.o=='J')||null;document.getElementById('tview').innerHTML=compareHTML(g,j,{name:t.n,f:t.f,df:t.df,s:t.s})};
+ document.getElementById('run').onclick=()=>{const v=ps.value;const txt=document.getElementById('draft').value;if(!v){document.getElementById('tview').innerHTML='<p class="flag">비교할 종전 조례 쌍을 먼저 고르세요.</p>';return}const [a,b]=v.split('|');document.getElementById('tview').innerHTML=compareHTML(D.by[a],D.by[b],txt.trim()?{name:'붙여넣은 통합조례안',f:extract(txt),df:defsOf(txt)}:null)};
+ document.getElementById('demo').onclick=()=>{const t=T.find(x=>x.n.includes('퇴직소방공무원'));if(t){ts.value=t.s;ts.onchange()}};
+ // s4
+ function r4(){const q=document.getElementById('q4').value.trim();const f=L=>L.filter(i=>!q||i.n.includes(q));const a=f(D.gonly),b=f(D.jonly);document.getElementById('c4').textContent=`광주에만 ${a.length} · 전남에만 ${b.length} (검색 결과)`;const it=i=>`<div class="row"><a href="${law(i.s)}" target="_blank" rel="noopener">${esc(i.n)}</a><br><small class="note">${esc(i.dp||'')} · ${esc(i.d)}</small></div>`;document.getElementById('gonly').innerHTML=a.map(it).join('');document.getElementById('jonly').innerHTML=b.map(it).join('')}
+ document.getElementById('q4').oninput=r4;r4();
+ const lag=D.items.filter(i=>i.r);document.getElementById('lag').innerHTML='<h3>이미 폐지됐는데 「현행」으로 표시된 종전 조례 ('+lag.length+'건)</h3><p class="note">통합조례 부칙의 폐지 조항으로 확인. 시민·공무원 혼선 방지를 위해 정비 반영 확인이 필요합니다.</p><ul>'+lag.map(i=>`<li>${esc(i.n)}</li>`).join('')+'</ul>';
+ const h=(location.hash||'').slice(1);if(/^s[1-5]$/.test(h))show(h);
+}
+function col(it,cls){if(!it)return '<td class="note">해당 조례 없음</td>';return `<td><a class="${cls}" href="${it.s?law(it.s):'#'}" target="_blank" rel="noopener">${esc(it.n||it.name)}</a></td>`}
+function cell(f,k){const L=f.filter(x=>x[0]==k);if(!L.length)return '<td class="note">-</td>';const seen=new Set();return '<td>'+L.filter(x=>{const z=x[1].replace(/\s/g,'')+x[2];if(seen.has(z))return false;seen.add(z);return true}).slice(0,5).map(x=>`<b>${esc(x[1])}</b> <small>${esc(x[2])}</small><br><small>${esc(x[3])}</small>`).join('<hr style="border:0;border-top:1px dashed #ddd">')+'</td>'}
+function compareHTML(g,j,t){
+ const F=it=>it?it.f:[];let h=`<h2>통합영향 대조표</h2><table><tr><th style="width:12%">항목</th><th class="G">종전 광주</th><th class="J">종전 전남</th>${t?'<th class="T">통합(안)</th>':''}</tr>`;
+ h+=`<tr><th>조례</th>${col(g,'G')}${col(j,'J')}${t?`<td class="T">${esc(t.name)}</td>`:''}</tr>`;
+ h+=`<tr><th>대상 정의</th>${[g,j].map(it=>it?'<td>'+((it.df||[]).slice(0,3).map(x=>`<small>${esc(x[0])}</small> ${esc(x[1])}`).join('<br>')||'<span class="note">-</span>')+'</td>':'<td class="note">-</td>').join('')}${t?'<td>'+((t.df||[]).slice(0,3).map(x=>`<small>${esc(x[0])}</small> ${esc(x[1])}`).join('<br>')||'-')+'</td>':''}</tr>`;
+ for(const k of ['age','won','pct','resid','year']){if(!F(g).some(x=>x[0]==k)&&!F(j).some(x=>x[0]==k)&&!(t&&t.f.some(x=>x[0]==k)))continue;h+=`<tr><th>${K[k]}</th>${cell(F(g),k)}${cell(F(j),k)}${t?cell(t.f,k):''}</tr>`}
+ h+='</table>';
+ // flags
+ const fl=[];const ag=ageRange(F(g)),aj=ageRange(F(j));
+ if(g&&j&&(ag[0]!==aj[0]||ag[1]!==aj[1])&&(ag[0]!=null||ag[1]!=null||aj[0]!=null||aj[1]!=null))fl.push(`연령 기준이 다릅니다 — 광주 ${ag[0]??'?'}~${ag[1]??'?'}세, 전남 ${aj[0]??'?'}~${aj[1]??'?'}세. 통합안이 좁은 쪽으로 정해지면 다른 지역 주민의 대상 상실(특별법 제55조), 넓은 쪽이면 추가 대상·재정 소요를 비용추계서에서 확인하세요.`);
+ const wg=vals(F(g),'won'),wj=vals(F(j),'won');if(g&&j&&wg.join()!=wj.join()&&(wg.length||wj.length))fl.push(`금액 조항이 다릅니다 — 광주 [${wg.join(', ')||'없음'}] / 전남 [${wj.join(', ')||'없음'}]. 지원금이면 낮은 쪽 적용 시 이익 상실, 과태료·사용료면 높은 쪽 적용 시 「새로운 부담」 여부를 확인하세요.`);
+ if(t){const at=ageRange(t.f);if(at[0]!=null||at[1]!=null){const lo=Math.min(...[ag[0],aj[0]].filter(x=>x!=null)),hi=Math.max(...[ag[1],aj[1]].filter(x=>x!=null));if(isFinite(lo)&&at[0]!=null&&at[0]>lo)fl.push(`통합안 하한 ${at[0]}세가 종전 최저 ${lo}세보다 높습니다 — ${lo==at[0]-1?lo:lo+'~'+(at[0]-1)}세 주민의 대상 상실 가능.`);if(isFinite(hi)&&at[1]!=null&&at[1]<hi)fl.push(`통합안 상한 ${at[1]}세가 종전 최고 ${hi}세보다 낮습니다 — ${hi==at[1]+1?hi:(at[1]+1)+'~'+hi}세 주민의 대상 상실 가능.`)}
+  const dt=(t.df||[]).map(x=>x[1]).join(' '),dg=[g,j].filter(Boolean).map(it=>(it.df||[]).map(x=>x[1]).join(' ')).join(' ');
+  if(/소속/.test(dt)&&/(전라남도|광주광역시)에서/.test(dg))fl.push('대상 정의가 「종전 지역에서 근무·거주」에서 「통합특별시 소속」으로 바뀌었습니다 — 2026.7.1. 이전 종전 소속으로 요건을 갖춘 사람이 문언상 빠지는지, 부칙에 적용례·경과조치가 있는지 확인하세요.');
+  if(!g||!j)fl.push(`종전 조례가 ${!g?'광주':'전남'} 쪽에 없습니다 — 통합으로 ${!g?'광주':'전남'} 주민에게 새로 확대되는 제도인지, 재정 소요가 비용추계서에 들어갔는지 확인하세요.`)}
+ h+='<h3>확인 질문 (자동 표시 · 판단은 사람이)</h3>'+(fl.length?fl.map(x=>`<div class="flag">${esc(x)}</div>`).join(''):'<div class="ok">수치 조건에서 자동으로 잡힌 차이가 없습니다. 대상 정의와 지원 방식은 원문으로 확인하세요.</div>');
+ h+=`<p><button class="btn l" onclick="copyTbl(this)">대조표 글자 복사</button></p>`;return h}
+function copyTbl(b){const tb=b.closest('div,section').querySelector('table');const txt=[...tb.rows].map(r=>[...r.cells].map(c=>c.innerText.replace(/\s+/g,' ').trim()).join('\t')).join('\n');navigator.clipboard.writeText(txt).then(()=>b.textContent='복사했습니다',()=>b.textContent='복사가 막혔습니다 — 표를 직접 선택해 복사하세요')}
+</script></body></html>
