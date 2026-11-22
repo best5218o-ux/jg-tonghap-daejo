@@ -69,7 +69,7 @@ footer{padding:16px 22px;color:var(--sub);font-size:12px;text-align:center}
 <p class="note">이 시범판은 판단을 대신하지 않습니다. 모든 표시는 조문 원문과 함께 보여 주며, 최종 판단은 의원·정책지원관·전문위원이 합니다. 원문 링크는 법제처 화면으로 연결됩니다.</p>
 <div id="lag"></div></div></section>
 </main>
-<footer>정책아이디어 공모 제안용 시범판 · 자료: 법제처 국가법령정보센터(현행자치법규) · 판 v1.1</footer>
+<footer>정책아이디어 공모 제안용 시범판 · 자료: 법제처 국가법령정보센터(현행자치법규) · 판 v1.2</footer>
 <script>
 const D={};const OC={G:'종전 광주',J:'종전 전남',T:'통합특별시'};
 const K={age:'연령',won:'금액',pct:'비율',resid:'거주요건',year:'기간'};
@@ -93,7 +93,7 @@ function init(){
  const diffN=D.pairs.filter(p=>p[3].length).length;
  let both=0;for(const s in D.pred){const ps=D.pred[s];if(ps.some(p=>/^(광주광역시|광주)/.test(p[0]))&&ps.some(p=>/^(전라남도|전남)/.test(p[0])))both++}
  D.both=both;
- const k=[[T.length,'통합특별시 조례(현행)'],[Gl.length+Jl.length,'아직 남은 종전 조례 (광주 '+Gl.length+' · 전남 '+Jl.length+')'],[D.pairs.length,'같은 주제를 두 지역이 따로 정한 쌍'],[diffN,'그중 연령·금액·비율·거주 조건이 다른 쌍'],[both,'양쪽 종전 조례를 하나로 합친 통합조례'],[D.gonly.length+D.jonly.length,'한쪽 지역에만 있는 종전 조례']];
+ const k=[[T.length,'통합특별시 조례(현행)'],[Gl.length+Jl.length,'아직 남은 종전 조례 (광주 '+Gl.length+' · 전남 '+Jl.length+')'],[D.pairs.length,'같은 주제를 두 지역이 따로 정한 쌍'],[diffN,'그중 수치 조건이 다르게 자동 추출된 쌍(확인 후보)'],[both,'양쪽 종전 조례를 하나로 합친 통합조례'],[D.gonly.length+D.jonly.length,'한쪽 지역에만 있는 종전 조례']];
  document.getElementById('kpis').innerHTML=k.map(x=>`<div class="kpi"><b>${x[0].toLocaleString()}</b><span>${x[1]}</span></div>`).join('');
  const tot=T.length+Gl.length+Jl.length;
  document.getElementById('barbox').innerHTML=`<div class="bar"><div style="width:${T.length/tot*100}%;background:var(--t)">통합 ${T.length}</div><div style="width:${Gl.length/tot*100}%;background:var(--g)">종전 광주 ${Gl.length}</div><div style="width:${Jl.length/tot*100}%;background:var(--j)">종전 전남 ${Jl.length}</div></div>`;
